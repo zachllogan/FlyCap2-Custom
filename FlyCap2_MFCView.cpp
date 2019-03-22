@@ -310,6 +310,10 @@ void CFlyCap2_MFCView::OnInitialUpdate()
 		// Query and reflect currently used color-processing method
 		pDoc->RefreshColorProcessingAlgorithm();
 	}
+
+	CStatic* pDrawingArea = (CStatic*)GetDlgItem(IDC_IMAGEAREA);
+	CDC* pImageDC = pDrawingArea->GetDC();
+	ScaleSetupDialog::createCompatibleDC(pImageDC);
 }
 
 // CFlyCap2_MFCView diagnostics
@@ -2313,9 +2317,6 @@ void CFlyCap2_MFCView::OnViewSetupScale()
 void CFlyCap2_MFCView::OnViewDrawscale()
 {
 	ScaleSetupDialog::drawScale = !ScaleSetupDialog::drawScale;
-	CStatic* pDrawingArea = (CStatic*)GetDlgItem(IDC_IMAGEAREA);
-	CDC* pImageDC = pDrawingArea->GetDC();
-	ScaleSetupDialog::createCompatibleDC(pImageDC);
 }
 
 
