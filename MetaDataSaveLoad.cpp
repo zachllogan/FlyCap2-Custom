@@ -190,6 +190,7 @@ void MetaDataSaveLoad::ReadMetaData(FlyCapture2::Camera* pCam, CString filePath)
 		std::stringstream lineIn;
 		
 		getline(buffer, line, '\r');
+		if (line.size() == 0) { return; }
 		buffer.get();
 		lineIn << line;
 		getline(lineIn, line, '(');
