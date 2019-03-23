@@ -23,6 +23,7 @@
 #include "VideoRecordingPage.h"
 #include "afxwin.h"
 #include "ScaleSetupDialog.h"
+#include "MetaDataSaveLoad.h"
 
 
 

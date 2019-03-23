@@ -351,6 +351,39 @@ void RecordingDialog::OnBnClickedButtonStartStopVideoRecord()
 				m_grabMode = DROP_FRAMES;
 			}
 
+			CString extension;
+			if (m_tabCtrl_OutputType.GetCurSel() == OUTPUT_TYPE_IMAGE)
+			{
+				ImageRecordingPage::ImageSettings imgSettings;
+				GetImageSettings(&imgSettings);
+				extension = ".";
+				extension += imgSettings.fileExtension;
+			}
+			else if (m_tabCtrl_OutputType.GetCurSel() == OUTPUT_TYPE_VIDEO)
+			{
+				VideoRecordingPage::VideoSettings vidSettings;
+				GetVideoSettings(&vidSettings);
+				switch (vidSettings.videoFormat)
+				{
+					case VideoRecordingPage::UNCOMPRESSED:
+						extension = "-0000.avi";
+						break;
+					case VideoRecordingPage::MJPEG:
+						extension = "-0000.avi";
+						break;
+					case VideoRecordingPage::H264:
+						extension = ".mp4";
+				}
+			}
+
+			if (!MetaDataSaveLoad::WriteMetaData(reinterpret_cast<FlyCapture2::Camera*>(m_pCameraRec), m_saveFilenameBase + extension, "this is a default test description"
+				"\r\nIt can have newlines, and it can have commas."))
+			{
+				EnableControls();
+				return;
+			}
+
+
 			if (CreateRecordingEvents())
 			{
 				m_isSaveBayerImageSelected = m_imageRecordingPage.GetSaveBayerCheckState();
