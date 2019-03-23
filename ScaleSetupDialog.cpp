@@ -134,6 +134,11 @@ void ScaleSetupDialog::drawScaleBar(BITMAPINFOHEADER header, unsigned char* pIma
 		scaleDrawBitmap.GetBitmap(pTempBITMAP);
 		scaleDrawBitmap.GetBitmapBits(tempBITMAP.bmHeight*tempBITMAP.bmWidthBytes, pImagePixels);
 
+		for (int* currPixel = (int*)pImagePixels; currPixel < (int*)pImagePixels+(tempBITMAP.bmHeight*tempBITMAP.bmWidthBytes/4); currPixel++)
+		{
+			*currPixel |= 0xFF000000;
+		}
+
 		compatibleDC.SetTextColor(oldColor);
 		compatibleDC.SelectObject(pOldFont);
 		compatibleDC.SelectObject(pOldPen);
