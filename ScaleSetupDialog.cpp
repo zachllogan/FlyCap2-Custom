@@ -103,7 +103,7 @@ void ScaleSetupDialog::drawScaleBar(BITMAPINFOHEADER header, unsigned char* pIma
 		scaleDrawBitmap.CreateBitmap(width, height, 1, header.biBitCount, pImagePixels);
 		CBitmap* pOldBitmap = compatibleDC.SelectObject(&scaleDrawBitmap);
 		
-		CPen pen(PS_SOLID, 1, (((DWORD)(BYTE)(254)) << 24) | ScaleSetupDialog::clr);
+		CPen pen(PS_SOLID, 1, ScaleSetupDialog::clr);
 		CPen* pOldPen = compatibleDC.SelectObject(&pen);
 
 		int scaleBarMicrons = int(ScaleSetupDialog::micronsPerPixel*width*.20);
