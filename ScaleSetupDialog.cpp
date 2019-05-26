@@ -116,7 +116,7 @@ void ScaleSetupDialog::drawScaleBar(BITMAPINFOHEADER header, unsigned char* pIma
 		}
 
 		CString scaleBarLabel;
-		scaleBarLabel = (std::to_wstring(scaleBarMicrons).append(L"\u00b5m")).c_str();
+		scaleBarLabel = (std::to_string(scaleBarMicrons).append("um")).c_str();
 		RECT ScaleBarLabelRect;
 		RECT* pScaleBarLabelRect = &ScaleBarLabelRect;
 		*pScaleBarLabelRect = { 0, int(height - height*.075), int(width - width*.035) - scaleBarPixels, int(height - height*.025) };
