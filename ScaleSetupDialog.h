@@ -44,6 +44,7 @@ public:
 	static unsigned int cameraSerial;
 	static unsigned int mode;
 	static std::string preset;
+	static double microns;
 	static double micronsPerPixel;
 	static bool configLoaded;
 	static COLORREF clr;

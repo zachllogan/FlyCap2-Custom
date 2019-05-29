@@ -40,6 +40,7 @@ void ScaleSetupDialog::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_SCALE_COLOR_PICKER, color);
 	DDX_Control(pDX, IDC_SCALE_MAG_COMBO, presetControl);
+	DDX_Text(pDX, IDC_SCALE_LENGTH_EDIT, microns);
 	if (pDX->m_bSaveAndValidate != 0)
 	{
 		CString temp;
@@ -106,7 +107,10 @@ void ScaleSetupDialog::drawScaleBar(BITMAPINFOHEADER header, unsigned char* pIma
 		CPen pen(PS_SOLID, 1, ScaleSetupDialog::clr);
 		CPen* pOldPen = compatibleDC.SelectObject(&pen);
 
-		int scaleBarMicrons = int(ScaleSetupDialog::micronsPerPixel*width*.20);
+		int widthMicrons = ScaleSetupDialog::micronsPerPixel*width;
+		int scaleBarMicrons = int(microns);
+		scaleBarMicrons = scaleBarMicrons > widthMicrons*0.80 ? widthMicrons * 0.80 : scaleBarMicrons;
+		scaleBarMicrons = scaleBarMicrons < widthMicrons*0.025 ? widthMicrons * 0.025 : scaleBarMicrons;
 		int scaleBarPixels = int((1 / ScaleSetupDialog::micronsPerPixel)*scaleBarMicrons);
 
 		for (int i = 0; i <= int(height*.05); i++)
@@ -157,6 +161,7 @@ std::map<unsigned int, std::map<unsigned int, std::map<std::string, double>>> Sc
 unsigned int ScaleSetupDialog::cameraSerial = 0;
 unsigned int ScaleSetupDialog::mode = 0;
 std::string ScaleSetupDialog::preset = "";
+double ScaleSetupDialog::microns = 100;
 double ScaleSetupDialog::micronsPerPixel = 1;
 bool ScaleSetupDialog::configLoaded = false;
 COLORREF ScaleSetupDialog::clr = 0x00000000;

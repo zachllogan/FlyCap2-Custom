@@ -172,8 +172,12 @@
 #define IDC_SCALE_MAG_TEXT              1141
 #define IDC_SCALE_COLOR_TEXT2           1144
 #define IDC_SCALE_COLOR_TEXT            1144
+#define IDC_SCALE_LENGTH                1145
 #define IDC_META_DATA_FOR_TEXT          1149
 #define IDC_EDIT_METADATA               1150
+#define IDC_                            1153
+#define IDC_SCALE_LENGTH_EDIT           1154
+#define IDC_SCALE_UM                    1155
 #define ID_FILE_STARTIMAGETRANSFER      32771
 #define ID_FILE_STOPIMAGETRANSFER       32772
 #define ID_CAMERACONTROL_TOGGLECAMERACONTROLDIALOG 32773
@@ -235,7 +239,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        185
 #define _APS_NEXT_COMMAND_VALUE         32845
-#define _APS_NEXT_CONTROL_VALUE         1152
+#define _APS_NEXT_CONTROL_VALUE         1156
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
