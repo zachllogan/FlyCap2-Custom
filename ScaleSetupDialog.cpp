@@ -10,6 +10,10 @@
 
 IMPLEMENT_DYNAMIC(ScaleSetupDialog, CDialog)
 
+BEGIN_MESSAGE_MAP(ScaleSetupDialog, CDialog)
+	ON_CBN_SELENDOK(IDC_SCALE_MAG_COMBO, ScaleSetupDialog::OnComboChanged)
+END_MESSAGE_MAP()
+
 ScaleSetupDialog::ScaleSetupDialog(CWnd* pParent /*=NULL*/)
 	: CDialog(IDD_DIALOG_SETUP_SCALE, pParent)
 	, color()
@@ -23,6 +27,7 @@ ScaleSetupDialog::~ScaleSetupDialog()
 
 BOOL ScaleSetupDialog::OnInitDialog()
 {
+	if (preset == "") { microns = config[cameraSerial][mode][presets[0]][1]; }
 	CDialog::OnInitDialog();
 	for (int i = 0; i < presets.size(); i++)
 	{
@@ -47,13 +52,9 @@ void ScaleSetupDialog::DoDataExchange(CDataExchange* pDX)
 		presetControl.GetLBText(presetControl.GetCurSel(), temp);
 		preset = temp.GetString();
 		clr = color.GetColor();
-		micronsPerPixel = config[cameraSerial][mode][preset];
+		micronsPerPixel = config[cameraSerial][mode][preset][0];
 	}
 }
-
-
-BEGIN_MESSAGE_MAP(ScaleSetupDialog, CDialog)
-END_MESSAGE_MAP()
 
 void ScaleSetupDialog::loadConfig(FlyCapture2::CameraInfo camInfo, FlyCapture2::Format7Info modeInfo)
 {
@@ -74,11 +75,14 @@ void ScaleSetupDialog::loadConfig(FlyCapture2::CameraInfo camInfo, FlyCapture2::
 			std::string mode;
 			std::string preset;
 			std::string micronsPerPixel;
+			std::string defaultLength;
 			getline(lineIn, cameraSerial, ';');
 			getline(lineIn, mode, ';');
 			getline(lineIn, preset, ';');
 			getline(lineIn, micronsPerPixel, ';');
-			ScaleSetupDialog::config[stoul(cameraSerial)][stoul(mode)][preset] = stod(micronsPerPixel);
+			getline(lineIn, defaultLength, ';');
+			ScaleSetupDialog::config[stoul(cameraSerial)][stoul(mode)][preset][0] = stod(micronsPerPixel);
+			ScaleSetupDialog::config[stoul(cameraSerial)][stoul(mode)][preset][1] =  stod(defaultLength);
 			for (int i = 0;; i++)
 			{
 				if (i < presets.size())
@@ -157,7 +161,7 @@ void  ScaleSetupDialog::createCompatibleDC(CDC* dc)
 }
 
 std::vector<std::string> ScaleSetupDialog::presets;
-std::map<unsigned int, std::map<unsigned int, std::map<std::string, double>>> ScaleSetupDialog::config;
+std::map<unsigned int, std::map<unsigned int, std::map<std::string, double[2]>>> ScaleSetupDialog::config;
 unsigned int ScaleSetupDialog::cameraSerial = 0;
 unsigned int ScaleSetupDialog::mode = 0;
 std::string ScaleSetupDialog::preset = "";
@@ -167,3 +171,12 @@ bool ScaleSetupDialog::configLoaded = false;
 COLORREF ScaleSetupDialog::clr = 0x00000000;
 bool ScaleSetupDialog::drawScale = false;
 CDC ScaleSetupDialog::compatibleDC;
+
+void ScaleSetupDialog::OnComboChanged()
+{
+	CString temp;
+	presetControl.GetLBText(presetControl.GetCurSel(), temp);
+	CString string;
+	string.Format("%d", int(config[cameraSerial][mode][temp.GetString()][1]));
+	SetDlgItemText(IDC_SCALE_LENGTH_EDIT, string);
+}

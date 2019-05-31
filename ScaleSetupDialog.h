@@ -40,7 +40,7 @@ public:
 	static void createCompatibleDC(CDC* dc);
 
 	static std::vector<std::string> presets;
-	static std::map<unsigned int, std::map<unsigned int, std::map<std::string, double>>> config;
+	static std::map<unsigned int, std::map<unsigned int, std::map<std::string, double[2]>>> config;
 	static unsigned int cameraSerial;
 	static unsigned int mode;
 	static std::string preset;
@@ -58,6 +58,9 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
+	void OnComboChanged();
+	void OnComboEdited();
 
 	DECLARE_MESSAGE_MAP()
 };
